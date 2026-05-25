@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Plantilla · Personal — ecomnet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:        #0e0e10;
+    --ink-2:      #2a2a2e;
+    --ink-3:      #5a5a62;
+    --paper:      #ffffff;
+
+    --sky:        #cfe2f8;
+    --sky-2:      #b9d2ed;
+    --pink:       #f3a8d4;
+    --pink-2:     #ec92c6;
+    --beige:      #e8e5dd;
+    --beige-2:    #dcd8cd;
+    --cream:      #f6f3eb;
+    --red:        #ff3a47;
+    --red-2:      #ea2434;
+
+    --f-ui: 'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+
+    --maxw: 1320px;
+    --gutter: clamp(20px, 4vw, 64px);
+    --section-y: clamp(72px, 9vw, 128px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body { font: 400 16px/1.5 var(--f-ui); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+  .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+  .section { padding-block: var(--section-y); position: relative; }
+
+  /* Type — bold, oversized, tight letter-spacing */
+  .display { font-weight: 700; letter-spacing: -0.035em; line-height: 0.95; text-wrap: balance; }
+  .display-xl { font-size: clamp(72px, 12vw, 184px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.92; text-wrap: balance; }
+  .display-l  { font-size: clamp(56px, 8vw, 128px); font-weight: 700; letter-spacing: -0.035em; line-height: 0.95; text-wrap: balance; }
+  .display-m  { font-size: clamp(40px, 5vw, 72px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.0; text-wrap: balance; }
+  .display-s  { font-size: clamp(24px, 2.2vw, 32px); font-weight: 600; letter-spacing: -0.018em; line-height: 1.1; }
+  .lede       { font-size: clamp(16px, 1.2vw, 18px); line-height: 1.55; color: var(--ink-2); max-width: 52ch; text-wrap: pretty; }
+  .meta       { font-size: 14px; letter-spacing: -0.005em; color: var(--ink-2); font-weight: 500; }
+  .label      { font-size: 13px; letter-spacing: 0.02em; color: var(--ink-3); font-weight: 500; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 999px; font: 600 14px/1 var(--f-ui); letter-spacing: -0.003em; transition: transform .12s ease, background .2s ease, color .2s ease, border-color .2s ease; white-space: nowrap; }
+  .btn:active { transform: translateY(1px); }
+  .btn--ink { background: var(--ink); color: var(--paper); }
+  .btn--ink:hover { background: var(--ink-2); }
+  .btn--red { background: var(--red); color: var(--paper); }
+  .btn--red:hover { background: var(--red-2); }
+  .btn--paper { background: var(--paper); color: var(--ink); }
+  .btn--paper:hover { background: var(--cream); }
+  .btn--ghost { background: transparent; color: currentColor; border: 1.5px solid currentColor; }
+  .btn--ghost:hover { background: currentColor; }
+  .btn--ghost.on-ink:hover { color: var(--ink); }
+  .btn--ghost.on-red:hover { color: var(--red); }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 60; backdrop-filter: blur(20px) saturate(140%); background: rgba(207, 226, 248, 0.78); }
+  .nav__inner { display: flex; align-items: center; justify-content: space-between; padding-block: 18px; }
+  .logo { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
+  .logo__mark {
+    width: 30px; height: 30px; border-radius: 999px;
+    background: var(--ink); color: var(--paper);
+    display: grid; place-items: center;
+    font-size: 12px; font-weight: 700; letter-spacing: -0.02em;
+  }
+  .nav__links { display: flex; gap: 28px; align-items: center; font-size: 14px; color: var(--ink-2); font-weight: 500; }
+  .nav__links a:hover { color: var(--ink); }
+  @media (max-width: 760px) { .nav__links a:not(.nav__cta) { display: none; } }
+
+  /* ============ HERO — sky blue gradient ============ */
+  .hero { background: linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 100%); padding-bottom: clamp(48px, 6vw, 80px); }
+  .hero__inner { padding-top: clamp(48px, 7vw, 88px); }
+  .hero__name { font-size: clamp(20px, 1.6vw, 24px); font-weight: 500; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 18px; }
+  .hero__h1 { color: var(--ink); margin-bottom: clamp(40px, 5vw, 64px); }
+  .hero__mockup {
+    width: 100%;
+    aspect-ratio: 16/8.5;
+    background: var(--cream);
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,0.25);
+  }
+  .hero__mockup .ph {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.04) 0 1px, transparent 1px 14px),
+      linear-gradient(180deg, var(--cream), var(--beige));
+    display: grid; place-items: center;
+  }
+  .hero__mockup .ph span {
+    font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 500;
+    background: var(--paper); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.06);
+  }
+  .hero__caption {
+    position: absolute; left: 24px; bottom: 24px;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+    padding: 10px 16px; border-radius: 999px;
+    font-size: 13px; font-weight: 500; color: var(--ink-2);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .hero__caption::before { content: ''; width: 7px; height: 7px; border-radius: 999px; background: var(--red); }
+
+  /* ============ INTRO — Hi I'm X ============ */
+  .intro { padding-block: clamp(80px, 10vw, 144px); background: var(--paper); }
+  .intro__grid { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .intro__portrait {
+    aspect-ratio: 5/4;
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 12px),
+      linear-gradient(135deg, var(--beige), var(--beige-2));
+    display: grid; place-items: center;
+    max-width: 320px;
+  }
+  .intro__portrait .ph-label {
+    font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 500;
+    background: var(--paper); padding: 8px 14px; border-radius: 6px;
+  }
+  .intro__copy {
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.18;
+    text-wrap: pretty;
+    color: var(--ink);
+  }
+  .intro__copy .accent { color: var(--red); font-weight: 600; }
+  @media (max-width: 880px) {
+    .intro__grid { grid-template-columns: 1fr; gap: 32px; }
+    .intro__portrait { max-width: 280px; }
+  }
+
+  /* ============ DESIGN FOCUSES — PINK ============ */
+  .focuses { background: var(--pink); padding-block: clamp(80px, 10vw, 144px); }
+  .focuses__h { color: var(--ink); margin-bottom: clamp(40px, 5vw, 72px); max-width: 14ch; }
+  .focuses__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .focus { display: flex; flex-direction: column; gap: 24px; }
+  .focus__media {
+    aspect-ratio: 1/1;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.18) 0 1px, transparent 1px 14px),
+      linear-gradient(135deg, var(--sky), var(--sky-2));
+    display: grid; place-items: center;
+  }
+  .focus:nth-child(2) .focus__media {
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.04) 0 1px, transparent 1px 14px),
+      linear-gradient(135deg, var(--cream), var(--beige));
+  }
+  .focus:nth-child(3) .focus__media {
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.15) 0 1px, transparent 1px 14px),
+      linear-gradient(135deg, #2f5d3c, #1f4429);
+  }
+  .focus__media .ph {
+    font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 500;
+    background: var(--paper); padding: 8px 14px; border-radius: 6px;
+  }
+  .focus__title { font-size: clamp(22px, 2vw, 30px); font-weight: 600; letter-spacing: -0.018em; color: var(--ink); }
+  .focus__desc { font-size: 15px; line-height: 1.5; color: var(--ink-2); max-width: 32ch; }
+  @media (max-width: 880px) { .focuses__grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* ============ PROJECT GALLERY — beige ============ */
+  .gallery { background: var(--beige); padding-block: clamp(80px, 10vw, 144px); }
+  .gallery__head { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 32px; margin-bottom: clamp(40px, 5vw, 64px); }
+  .gallery__h { color: var(--ink); }
+  .gallery__quote { max-width: 28ch; font-size: clamp(15px, 1.2vw, 17px); font-weight: 500; line-height: 1.45; color: var(--ink-2); text-align: right; padding-top: 16px; }
+  .gallery__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+    aspect-ratio: 16/9;
+  }
+  .gallery__cell {
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 12px),
+      linear-gradient(135deg, var(--cream), var(--beige-2));
+    display: grid; place-items: center;
+    position: relative;
+  }
+  .gallery__cell:nth-child(1) { grid-row: 1 / span 2; }
+  .gallery__cell:nth-child(2) {
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 12px),
+      linear-gradient(135deg, #ece8de, #d5cfbe);
+  }
+  .gallery__cell:nth-child(3) {
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 12px),
+      linear-gradient(135deg, #d8d4c4, #a8a594);
+  }
+  .gallery__cell .ph {
+    font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 500;
+    background: var(--paper); padding: 8px 14px; border-radius: 6px;
+  }
+  @media (max-width: 880px) {
+    .gallery__head { grid-template-columns: 1fr; }
+    .gallery__quote { text-align: left; padding-top: 0; }
+    .gallery__grid { aspect-ratio: auto; grid-template-columns: 1fr; grid-template-rows: auto; }
+    .gallery__cell { aspect-ratio: 4/3; }
+    .gallery__cell:nth-child(1) { grid-row: auto; }
+  }
+
+  /* ============ PROJECT FEATURE — repeating ============ */
+  .project { padding-block: clamp(80px, 10vw, 144px); background: var(--cream); }
+  .project--paper { background: var(--paper); }
+  .project--beige { background: var(--beige); }
+  .project--orange { background: #e76f3f; color: var(--paper); }
+  .project__grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(40px, 6vw, 96px); align-items: center; }
+  .project--reverse .project__grid { grid-template-columns: 1.4fr 1fr; }
+  .project--reverse .project__copy { order: 2; }
+  .project__num { font-size: 14px; letter-spacing: -0.005em; color: var(--ink-2); font-weight: 500; margin-bottom: clamp(40px, 5vw, 72px); }
+  .project--orange .project__num { color: rgba(255,255,255,0.85); }
+  .project__title { color: var(--ink); margin-bottom: 28px; }
+  .project--orange .project__title { color: var(--paper); }
+  .project__desc { font-size: 15px; line-height: 1.55; color: var(--ink-2); max-width: 36ch; margin-bottom: 32px; }
+  .project--orange .project__desc { color: rgba(255,255,255,0.92); }
+  .project__tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .project__tag { font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.06); color: var(--ink-2); }
+  .project--orange .project__tag { background: rgba(255,255,255,0.18); color: var(--paper); }
+  .project__media {
+    position: relative;
+    aspect-ratio: 16/11;
+    border-radius: 18px;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.04) 0 1px, transparent 1px 14px),
+      linear-gradient(135deg, var(--beige), var(--beige-2));
+    display: grid; place-items: center;
+  }
+  .project--orange .project__media {
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.06) 0 1px, transparent 1px 14px),
+      linear-gradient(135deg, #f2916a, #c44e22);
+  }
+  .project__media .ph {
+    font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 500;
+    background: var(--paper); padding: 8px 14px; border-radius: 6px;
+  }
+  @media (max-width: 880px) {
+    .project__grid { grid-template-columns: 1fr; }
+    .project--reverse .project__grid { grid-template-columns: 1fr; }
+    .project--reverse .project__copy { order: 0; }
+  }
+
+  /* ============ CONTACT — RED full-bleed ============ */
+  .contact { background: var(--red); color: var(--paper); padding-block: clamp(80px, 10vw, 144px); position: relative; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; }
+  .contact__h { color: var(--paper); margin-bottom: clamp(72px, 10vw, 144px); max-width: 16ch; }
+  .contact__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .contact__col h4 { font-size: 16px; font-weight: 700; letter-spacing: -0.005em; margin-bottom: 18px; color: var(--paper); }
+  .contact__col .v { font-size: clamp(18px, 1.6vw, 22px); font-weight: 500; letter-spacing: -0.012em; color: var(--paper); }
+  .contact__col .v a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .contact__bottom {
+    margin-top: clamp(72px, 10vw, 128px);
+    display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap;
+  }
+  .contact__socials { display: flex; gap: 14px; }
+  .contact__social {
+    width: 44px; height: 44px; border-radius: 999px;
+    background: var(--paper); color: var(--red);
+    display: grid; place-items: center;
+    font-size: 16px; font-weight: 700;
+    transition: transform .15s ease;
+  }
+  .contact__social:hover { transform: scale(1.06); }
+  .contact__top-link { display: inline-flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+  .contact__top-circle {
+    width: 44px; height: 44px; border-radius: 999px;
+    background: var(--paper); color: var(--red);
+    display: grid; place-items: center;
+    font-size: 18px; font-weight: 700;
+  }
+  .contact__top-link span { font-size: 14px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 760px) { .contact__grid { grid-template-columns: 1fr; gap: 24px; } }
+
+  /* Demo ribbon */
+  .ribbon { position: fixed; top: 12px; right: 12px; z-index: 200; background: var(--ink); color: var(--paper); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 999px; display: inline-flex; gap: 8px; align-items: center; }
+  .ribbon::before { content: ''; width: 6px; height: 6px; border-radius: 999px; background: var(--red); }
+  .ribbon a { color: inherit; opacity: 0.75; }
+  .ribbon a:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<a class="ribbon" href="index.html"><span>Plantilla · Personal</span><span>· ver galería ↗</span></a>
+
+<!-- HERO -->
+<section class="hero">
+  <header class="nav">
+    <div class="container nav__inner">
+      <a class="logo" href="#">
+        <span class="logo__mark">M</span>
+        <span>Marina Ruiz</span>
+      </a>
+      <nav class="nav__links">
+        <a href="#sobre-mi">Sobre mí</a>
+        <a href="#enfoques">Servicios</a>
+        <a href="#proyectos">Proyectos</a>
+        <a class="btn btn--ink nav__cta" href="#contacto">Trabajemos juntos →</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container hero__inner">
+    <div class="hero__name">Marina Ruiz</div>
+    <h1 class="display-xl hero__h1">Asesora financiera independiente.</h1>
+    <div class="hero__mockup">
+      <img src="../Asesora_en_finanzas.jpg" alt="Marina Ruiz, asesora financiera independiente" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+      <div class="hero__caption">Aceptando 2 clientes nuevos · junio 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO — Hi I'm Marina -->
+<section class="intro" id="sobre-mi">
+  <div class="container">
+    <div class="intro__grid">
+      <div class="intro__portrait" style="position:relative;">
+        <img src="../A_Marina.jpg" alt="Marina Ruiz" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+      </div>
+      <div class="intro__copy">
+        <span class="accent">Hola, soy Marina.</span> Ayudo a freelancers, autónomos y pequeñas SLs a poner orden en su dinero — no a comprarles productos financieros que no necesitan. Licenciada en Económicas por la UCM y diez años trabajando por mi cuenta, sin un despacho heredado.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN FOCUSES — PINK -->
+<section class="focuses" id="enfoques">
+  <div class="container">
+    <h2 class="display-l focuses__h">En qué te ayudo</h2>
+    <div class="focuses__grid">
+      <article class="focus">
+        <div class="focus__media"><img src="../Notebook.jfif" alt="Diagnóstico financiero" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <h3 class="focus__title">Diagnóstico financiero</h3>
+        <p class="focus__desc">Dos sesiones para entender de dónde sale tu dinero, dónde se va y qué se puede mejorar en 12 meses.</p>
+      </article>
+      <article class="focus">
+        <div class="focus__media"><img src="../Notebook_2.jfif" alt="Acompañamiento mensual" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <h3 class="focus__title">Acompañamiento mensual</h3>
+        <p class="focus__desc">Una llamada al mes + WhatsApp directo. Trimestrales, IRPF, decisiones grandes y pequeñas — sin esperar a abril.</p>
+      </article>
+      <article class="focus">
+        <div class="focus__media"><img src="../Contract.jfif" alt="Salto autónomo a SL" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <h3 class="focus__title">Salto autónomo → SL</h3>
+        <p class="focus__desc">Hacemos los números, y si conviene te llevo de autónomo a sociedad limitada sin que tengas que aprender derecho mercantil.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT GALLERY -->
+<section class="gallery" id="proyectos">
+  <div class="container">
+    <div class="gallery__head">
+      <h2 class="display-l gallery__h">Casos reales</h2>
+      <p class="gallery__quote">"Mi trabajo se mide en decisiones que se sostienen — no en folletos bonitos."</p>
+    </div>
+    <div class="gallery__grid">
+      <div class="gallery__cell"><img src="../Reporte_financiero.jfif" alt="Caso destacado — gráfica anual" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="gallery__cell"><img src="../Liquidacion_de_Iva.jpg" alt="Caso — cierre fiscal" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="gallery__cell"><img src="../Documento_firmado.jfif" alt="Caso — documentos firmados" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT 1 -->
+<section class="project project--paper">
+  <div class="container">
+    <div class="project__num">Caso #1</div>
+    <div class="project__grid">
+      <div class="project__copy">
+        <h2 class="display-l project__title">Diseñador freelance · Madrid</h2>
+        <div class="project__tags">
+          <span class="project__tag">Acompañamiento mensual</span>
+          <span class="project__tag">3 años</span>
+        </div>
+        <p class="project__desc">Llevaba seis años con una gestoría que le cobraba 90€/mes y nunca habían hablado de estrategia. Hicimos diagnóstico, recolocamos retenciones, ajustamos tarifas y abrimos un plan de ahorro fiscal.</p>
+        <p class="project__desc"><strong style="color: var(--ink); font-weight: 600;">Resultado:</strong> 4.000€ de ahorro fiscal el primer año. Sigue conmigo.</p>
+      </div>
+      <div class="project__media"><img src="../Reporte_financiero.jfif" alt="Caso 1 — diseñador freelance Madrid" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT 2 -->
+<section class="project project--beige project--reverse">
+  <div class="container">
+    <div class="project__num">Caso #2</div>
+    <div class="project__grid">
+      <div class="project__media"><img src="../Ordenador_con_reporte.jfif" alt="Caso 2 — consultora UX Valencia" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="project__copy">
+        <h2 class="display-l project__title">Consultora UX · Valencia</h2>
+        <div class="project__tags">
+          <span class="project__tag">Auditoría de gestoría</span>
+          <span class="project__tag">Informe 5 días</span>
+        </div>
+        <p class="project__desc">Pidió una segunda opinión sobre lo que estaba haciendo su gestoría. Le entregué un informe de 14 páginas con cosas concretas.</p>
+        <p class="project__desc"><strong style="color: var(--ink); font-weight: 600;">Resultado:</strong> Cambió de gestor a las dos semanas y ahora la llaman dos veces al año, no una.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT 3 — orange accent -->
+<section class="project project--orange">
+  <div class="container">
+    <div class="project__num">Caso #3</div>
+    <div class="project__grid">
+      <div class="project__copy">
+        <h2 class="display-l project__title">Fotógrafo de bodas · Barcelona</h2>
+        <div class="project__tags">
+          <span class="project__tag">Salto a SL</span>
+          <span class="project__tag">Precio cerrado</span>
+        </div>
+        <p class="project__desc">Tras facturar 75k tres años seguidos, decidió dar el salto. Hicimos los números, le expliqué qué cambiaba en cada paso y lo llevé de autónomo a SL sin sustos.</p>
+        <p class="project__desc"><strong style="color: var(--paper); font-weight: 600;">Resultado:</strong> SL operativa en 6 semanas, optimización fiscal del 18% en el primer ejercicio.</p>
+      </div>
+      <div class="project__media"><img src="../Firma.jpg" alt="Caso 3 — fotógrafo Barcelona" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT — RED -->
+<section class="contact" id="contacto">
+  <div class="container">
+    <h2 class="display-xl contact__h">Trabajemos juntos.</h2>
+    <div class="contact__grid">
+      <div class="contact__col">
+        <h4>Social</h4>
+        <div class="v"><a href="#">@marinaruiz.finanzas</a></div>
+      </div>
+      <div class="contact__col">
+        <h4>Email</h4>
+        <div class="v"><a href="mailto:hola@marinaruiz.es">hola@marinaruiz.es</a></div>
+      </div>
+      <div class="contact__col">
+        <h4>Teléfono</h4>
+        <div class="v"><a href="tel:+34600123456">+34 600 12 34 56</a></div>
+      </div>
+    </div>
+    <div class="contact__bottom">
+      <div class="contact__socials">
+        <a class="contact__social" href="#" aria-label="LinkedIn">in</a>
+        <a class="contact__social" href="#" aria-label="Instagram">IG</a>
+        <a class="contact__social" href="#" aria-label="Email">@</a>
+      </div>
+      <a class="contact__top-link" href="#top">
+        <span class="contact__top-circle">↑</span>
+        <span>Volver arriba</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+Diagnóstico exacto
+El sistema está bien construido. El .container tiene padding: 0 var(--gutter) en línea 189 — eso es correcto. El problema está en línea 1454:
+css.stats__cell {
+  padding: 24px var(--gutter) 20px;
+}
+Esta celda aplica su propio padding correctamente. Pero mira la línea 1473:
+css.case-card { padding: 28px 20px 24px; min-height: 260px; }
+Aquí está el doble problema de las cards:
+
+Usa 20px hardcodeado en lugar de var(--gutter) — inconsistente con el sistema
+Tiene min-height: 260px que es exactamente el espacio vacío que ves en móvil
+
+
+Brief exacto para Claude Code
+
+"En styles.css, línea 1473, cambiar:
+css.case-card { padding: 28px 20px 24px; min-height: 260px; }
+por:
+css.case-card { padding: 28px var(--gutter) 24px; min-height: unset; }
+Adicionalmente, revisar todos los padding dentro del bloque @media (max-width: 600px) que usen valores hardcodeados en lugar de var(--gutter) para padding lateral, y reemplazarlos por la variable. El único 20px que puede quedar es el del @media (max-width: 400px) en .case-card si se quiere un padding más ajustado en pantallas muy pequeñas, pero entonces cambiarlo a var(--s-4) que es 16px para mantener consistencia con el sistema de spacing."

@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ecomnet — Tu landing en 48h. Cada mes.</title>
+  <meta name="description" content="Rebranding completo + identidad digital propia en 48 horas, a precio de suscripción. 100 negocios activos. 33.638 leads gestionados." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <!-- React + Babel (pinned) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- tweaks-panel.jsx — inlined para compatibilidad file:// -->
+  <script type="text/babel">
+
+// tweaks-panel.jsx
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+  .twk-field{appearance:none;box-sizing:border-box;width:100%;min-width:0;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+  .twk-num{display:flex;align-items:center;box-sizing:border-box;min-width:0;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+  .twk-chips{display:flex;gap:6px}
+  .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;
+    padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;
+    box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);
+    transition:transform .12s cubic-bezier(.3,.7,.4,1),box-shadow .12s}
+  .twk-chip:hover{transform:translateY(-1px);
+    box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.12)}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),
+    0 2px 6px rgba(0,0,0,.15)}
+  .twk-chip>span{position:absolute;top:0;bottom:0;right:0;width:34%;
+    display:flex;flex-direction:column;box-shadow:-1px 0 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i{flex:1;box-shadow:0 -1px 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i:first-child{box-shadow:none}
+  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+`;
+
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-omelette-chrome=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+function TweakSection({ label, children }) {
+  return (<><div className="twk-sect">{label}</div>{children}</>);
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+  const labelLen = (o) => String(typeof o === 'object' ? o.label : o).length;
+  const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
+  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
+  if (!fitsAsSegments) {
+    const resolve = (s) => {
+      const m = options.find((o) => String(typeof o === 'object' ? o.value : o) === s);
+      return m === undefined ? s : typeof m === 'object' ? m.value : m;
+    };
+    return <TweakSelect label={label} value={value} options={options}
+                        onChange={(s) => onChange(resolve(s))} />;
+  }
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function __twkIsLight(hex) {
+  const h = String(hex).replace('#', '');
+  const x = h.length === 3 ? h.replace(/./g, (c) => c + c) : h.padEnd(6, '0');
+  const n = parseInt(x.slice(0, 6), 16);
+  if (Number.isNaN(n)) return true;
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  return r * 299 + g * 587 + b * 114 > 148000;
+}
+
+const __TwkCheck = ({ light }) => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2"
+          strokeLinecap="round" strokeLinejoin="round"
+          stroke={light ? 'rgba(0,0,0,.78)' : '#fff'} />
+  </svg>
+);
+
+function TweakColor({ label, value, options, onChange }) {
+  if (!options || !options.length) {
+    return (
+      <div className="twk-row twk-row-h">
+        <div className="twk-lbl"><span>{label}</span></div>
+        <input type="color" className="twk-swatch" value={value}
+               onChange={(e) => onChange(e.target.value)} />
+      </div>
+    );
+  }
+  const key = (o) => String(JSON.stringify(o)).toLowerCase();
+  const cur = key(value);
+  return (
+    <TweakRow label={label}>
+      <div className="twk-chips" role="radiogroup">
+        {options.map((o, i) => {
+          const colors = Array.isArray(o) ? o : [o];
+          const [hero, ...rest] = colors;
+          const sup = rest.slice(0, 4);
+          const on = key(o) === cur;
+          return (
+            <button key={i} type="button" className="twk-chip" role="radio"
+                    aria-checked={on} data-on={on ? '1' : '0'}
+                    aria-label={colors.join(', ')} title={colors.join(' · ')}
+                    style={{ background: hero }}
+                    onClick={() => onChange(o)}>
+              {sup.length > 0 && (
+                <span>{sup.map((c, j) => <i key={j} style={{ background: c }} />)}</span>
+              )}
+              {on && <__TwkCheck light={__twkIsLight(hero)} />}
+            </button>
+          );
+        })}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+  </script>
+
+  <!-- sections.jsx — inlined para compatibilidad file:// -->
+  <script type="text/babel">
+
+// sections.jsx — all section components for the ecomnet landing
+const { useState, useRef, useEffect, useCallback } = React;
+
+function Wordmark({ size = 24, color, slashColor, className = "" }) {
+  return (
+    <span className={`nav__logo ${className}`} style={{ fontSize: size, color: color || undefined }}>
+      <span>ecom</span>
+      <span className="nav__logo-slash" style={{ color: slashColor || undefined }}>/</span>
+      <span>net</span>
+    </span>
+  );
+}
+
+function Nav() {
+  return (
+    <header className="nav">
+      <div className="container nav__inner">
+        <Wordmark />
+        <nav className="nav__links">
+          <a href="#casos">Casos</a>
+          <a href="plantillas/index.html">Plantillas</a>
+          <a href="#pricing">Planes</a>
+          <a href="#faq">Preguntas</a>
+          <span className="nav__live"><span className="dot" /> Servicio activo · 100 negocios</span>
+          <a href="#cta" className="btn btn--coral nav__cta">
+            Empezar
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="arrow">
+              <path d="M3 7h8M7 3l4 4-4 4" />
+            </svg>
+          </a>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function BeforeAfter() {
+  const ref = useRef(null);
+  const [split, setSplit] = useState(50);
+  const dragging = useRef(false);
+  const set = useCallback((clientX) => {
+    if (!ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    const pct = ((clientX - r.left) / r.width) * 100;
+    setSplit(Math.max(3, Math.min(97, pct)));
+  }, []);
+  useEffect(() => {
+    const move = (e) => {
+      if (!dragging.current) return;
+      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      set(x);
+    };
+    const up = () => { dragging.current = false; document.body.style.cursor = ""; };
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", up);
+    window.addEventListener("touchmove", move, { passive: true });
+    window.addEventListener("touchend", up);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseup", up);
+      window.removeEventListener("touchmove", move);
+      window.removeEventListener("touchend", up);
+    };
+  }, [set]);
+  useEffect(() => {
+    let t1 = setTimeout(() => setSplit(72), 600);
+    let t2 = setTimeout(() => setSplit(28), 1500);
+    let t3 = setTimeout(() => setSplit(50), 2400);
+    return () => [t1, t2, t3].forEach(clearTimeout);
+  }, []);
+  const start = (e) => {
+    dragging.current = true;
+    document.body.style.cursor = "ew-resize";
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    set(x);
+    e.preventDefault();
+  };
+  return (
+    <div className="ba" ref={ref} style={{ "--split": `${split}%` }}
+         onMouseDown={start} onTouchStart={start}>
+      <div className="ba__pane ba__pane--before"><MockBefore /></div>
+      <div className="ba__pane ba__pane--after"><MockAfter /></div>
+      <span className="ba__tag ba__tag--before">Antes · plantilla genérica</span>
+      <span className="ba__tag ba__tag--after">Después · ecomnet</span>
+      <div className="ba__divider" />
+      <div className="ba__handle" aria-label="Arrastra para comparar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M9 6l-5 6 5 6M15 6l5 6-5 6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+function MockBefore() {
+  return (
+    <div className="mock mock--before">
+      <div className="b-nav">
+        <span className="b-logo">PINAMAR INMOBILIARIA</span>
+        <span className="b-nav-links">Inicio · Pisos · Locales · Quiénes somos · Hipotecas · Tasaciones · Blog · Contacto</span>
+        <span className="b-nav-tel">☎ 91 555 88 22</span>
+      </div>
+      <div className="b-banner">
+        <div className="b-banner-photo">
+          <div className="b-banner-overlay" />
+          <div className="b-banner-text">
+            <p className="b-banner-eyebrow">★★★★★ &nbsp;&nbsp; +20 AÑOS DE EXPERIENCIA</p>
+            <h1>TU HOGAR<br/>IDEAL TE ESPERA</h1>
+            <p className="b-banner-sub">La mejor inmobiliaria de Madrid · Más de 1.500 viviendas vendidas · Atención personalizada</p>
+            <span className="b-btn">CONTACTAR AHORA ➜</span>
+          </div>
+        </div>
+      </div>
+      <div className="b-grid">
+        <div className="b-card"><div className="b-card-img" /><div className="b-card-badge">¡OFERTA!</div><div className="b-card-price">365.000€</div><div className="b-card-title">PISO EN ATOCHA - 3 HAB. - 2 BAÑOS - 95M²</div></div>
+        <div className="b-card"><div className="b-card-img" /><div className="b-card-badge b-card-badge--alt">NUEVO</div><div className="b-card-price">520.000€</div><div className="b-card-title">CHAMBERÍ - 4 HAB. - REFORMADO - 120M²</div></div>
+        <div className="b-card"><div className="b-card-img" /><div className="b-card-badge">REBAJADO</div><div className="b-card-price">285.000€</div><div className="b-card-title">LAVAPIÉS - 2 HAB. - LUMINOSO - 68M²</div></div>
+      </div>
+      <div className="b-strip">
+        <span>✓ Tasación gratuita</span><span>✓ Financiación al 100%</span>
+        <span>✓ Sin comisiones ocultas</span><span>✓ Atención 7 días</span>
+      </div>
+      <div className="b-whatsapp">WhatsApp</div>
+    </div>
+  );
+}
+
+function MockAfter() {
+  return (
+    <div className="mock mock--after">
+      <div className="a-nav">
+        <span className="a-logo">Pinamar<span style={{ color: "var(--coral)", fontStyle: "italic", padding: "0 1px" }}>/</span>Inmobiliaria</span>
+        <div className="a-links"><span>Portfolio</span><span>Equipo</span><span>Tasación</span></div>
+        <span className="a-loc">Madrid · ES</span>
+      </div>
+      <div className="a-hero">
+        <div className="a-hero-left">
+          <div className="a-eyebrow">— Selección semana 24 · Madrid centro</div>
+          <h1>Pisos<br/>con <em>carácter</em>,<br/>uno a uno.</h1>
+          <p className="a-lede">Cada inmueble visitado, fotografiado y descrito por una persona. Cero plantillas.</p>
+          <span className="a-btn">Ver selección →</span>
+        </div>
+        <div className="a-featured">
+          <div className="a-featured-img">
+            <span className="a-featured-tag">Apartamento · Atocha</span>
+            <img src="apartamento.png" alt="Apartamento en Atocha" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </div>
+          <div className="a-featured-meta"><span>01 / Atocha</span><span>365.000€</span></div>
+          <div className="a-featured-title">Edificio clásico,<br/>Suelo de Madera</div>
+          <div className="a-featured-data">3 hab · 2 baños · 95m² · ext.</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="hero">
+      <div className="container">
+        <div className="hero__meta">
+          <span className="eyebrow">N.º 01 — Servicio recurrente</span>
+          <span className="hero__meta-line" />
+          <span className="eyebrow">Murcia · Madrid · LATAM</span>
+        </div>
+        <h1 className="hero__h1">De idea a venta<br/><em>en 48 horas.</em></h1>
+        <div className="hero__sub-row">
+          <p className="lede">
+            Una landing diseñada, publicada y mantenida por una cuota fija al mes.
+            Sin agencias intermedias. Sin presupuestos que se duplican.
+            Si no te encaja, no pagas nada.
+          </p>
+          <div className="hero__actions">
+            <a href="#cta" className="btn btn--coral">
+              Ver planes
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="arrow"><path d="M3 7h8M7 3l4 4-4 4" /></svg>
+            </a>
+            <a href="plantillas/index.html" className="btn btn--ghost">Ver plantillas</a>
+            <a href="#casos" className="btn btn--ghost">Ver casos reales</a>
+          </div>
+        </div>
+        <BeforeAfter />
+        <p className="hero__caption">Arrastra para comparar · Misma marca, antes y después de ecomnet</p>
+      </div>
+    </section>
+  );
+}
+
+function CountUp({ to, format = (n) => n }) {
+  const [v, setV] = useState(0);
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    let started = false;
+    const obs = new IntersectionObserver((ents) => {
+      ents.forEach((e) => {
+        if (e.isIntersecting && !started) {
+          started = true;
+          const dur = 1400;
+          const t0 = performance.now();
+          const tick = (t) => {
+            const p = Math.min(1, (t - t0) / dur);
+            const eased = 1 - Math.pow(1 - p, 3);
+            setV(Math.round(to * eased));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      });
+    }, { threshold: 0.4 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [to]);
+  return <span ref={ref}>{format(v)}</span>;
+}
+
+function Stats() {
+  return (
+    <section className="stats">
+      <div className="stats__row stats__row--three">
+        <div className="stats__cell">
+          <div className="stats__big tnum"><CountUp to={100} /><sup>+</sup></div>
+          <div className="stats__label">Negocios activos<br/>en producción</div>
+        </div>
+        <div className="stats__cell">
+          <div className="stats__big tnum"><CountUp to={33638} format={(n) => n.toLocaleString("es-ES")} /></div>
+          <div className="stats__label">Leads gestionados<br/>desde 2023</div>
+        </div>
+        <div className="stats__cell">
+          <div className="stats__big tnum">48<sup>h</sup></div>
+          <div className="stats__label">Tiempo medio<br/>de entrega real</div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Manifesto() {
+  return (
+    <section className="section">
+      <div className="container">
+        <div className="manifesto__head">
+          <span className="eyebrow">02 — Cómo trabajamos</span>
+          <h2 className="display-l">No experimentamos<br/>contigo. <em className="italic" style={{ color: "var(--coral)" }}>Publicamos.</em></h2>
+        </div>
+        <div className="manifesto__grid">
+          <div className="manifesto__cell">
+            <span className="num">— 01</span>
+            <h3>Una cuota, sin sorpresas.</h3>
+            <p>Diseño, hosting, dominio, mantenimiento y soporte directo. Sin "fases" ni presupuestos que se duplican. Pagas lo mismo el mes uno y el doce.</p>
+          </div>
+          <div className="manifesto__cell">
+            <span className="num">— 02</span>
+            <h3>48 horas, en serio.</h3>
+            <p>Briefing por la mañana, primera versión publicada antes de las 48 horas. No es marketing: es nuestra media real medida sobre 100 entregas.</p>
+          </div>
+          <div className="manifesto__cell">
+            <span className="num">— 03</span>
+            <h3>Si no te encaja, no pagas.</h3>
+            <p>Garantía de cancelación durante los primeros 14 días sin condiciones. Confiamos tanto en el trabajo que lo ponemos por escrito.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CasesSection() {
+  return (
+    <section id="casos" className="section section--night">
+      <div className="container">
+        <div className="cases__head">
+          <span className="eyebrow eyebrow--coral">03 — Casos reales</span>
+          <h2 className="display-l">No vendemos promesas:<br/>vendemos <em className="italic" style={{ color: "var(--coral)" }}>lo que ya hemos hecho.</em></h2>
+        </div>
+        <AnchorSalgado />
+        <div className="cases__grid">
+          {OTHER_CASES.map((c, i) => <CaseCard key={c.name} c={c} idx={i + 2} />)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AnchorSalgado() {
+  return (
+    <div className="anchor">
+      <div className="anchor__media">
+        <div className="m m1" style={{ backgroundImage: "url(assets/salgado/tattoo-justice.jpeg)" }} />
+        <div className="m" style={{ backgroundImage: "url(assets/salgado/tattoo-gorilla.jpeg)" }} />
+        <div className="m" style={{ backgroundImage: "url(assets/salgado/tattoo-buddha.jpeg)" }} />
+        <div className="m" style={{ backgroundImage: "url(assets/salgado/artist-portrait.jpeg)" }} />
+        <div className="m" style={{ backgroundImage: "url(assets/salgado/tattoo-tiger.jpeg)" }} />
+      </div>
+      <div className="anchor__body">
+        <div className="anchor__meta">
+          <span>Caso 01 / Destacado</span><span>Murcia, ES</span>
+          <span>Tatuaje realismo</span><span>Plan Premium</span>
+        </div>
+        <h3 className="anchor__title">Salgado<em>/</em>Tattoo</h3>
+        <p className="lede" style={{ color: "var(--on-night-2)" }}>
+          De una página de plantilla con menú lateral y formulario roto, a una pieza editorial
+          que muestra el trabajo como debería verse: a tamaño completo, sin distracciones.
+          Lista de espera abierta a cuatro meses vista.
+        </p>
+        <blockquote className="anchor__quote">
+          "En el primer mes con la web nueva, el porcentaje de reservas que llegaron por
+          formulario subió del 14% al 61%. El resto vino solo."
+          <cite>— Sergio Salgado · Fundador</cite>
+        </blockquote>
+        <div className="anchor__metrics">
+          <div className="anchor__metric"><div className="v tnum">×4<sup>·2</sup></div><div className="l">Reservas /<br/>mes vs. web anterior</div></div>
+          <div className="anchor__metric"><div className="v tnum">38<sup>%</sup></div><div className="l">Cliente<br/>foráneo nuevo</div></div>
+          <div className="anchor__metric"><div className="v tnum">36<sup>h</sup></div><div className="l">Entrega real<br/>(de briefing a vivo)</div></div>
+        </div>
+        <div>
+          <a href="#" className="btn btn--ghost" style={{ color: "var(--on-night)", borderColor: "var(--rule-night)" }}>
+            Ver caso completo
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="arrow"><path d="M3 7h8M7 3l4 4-4 4" /></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CaseCard({ c, idx }) {
+  return (
+    <article className="case-card">
+      <div className="case-card__index">— 0{idx}</div>
+      <div>
+        <div className="case-card__sector">{c.sector}</div>
+        <h3 className="case-card__title">{c.name}</h3>
+      </div>
+      <div className="case-card__metrics">
+        <div><span className="v tnum">{c.m1.v}</span><span className="l">{c.m1.l}</span></div>
+        <div><span className="v tnum">{c.m2.v}</span><span className="l">{c.m2.l}</span></div>
+      </div>
+      <span className="case-card__arrow">→</span>
+    </article>
+  );
+}
+
+const OTHER_CASES = [
+  { name: "Pinamar Inmobiliaria", sector: "Inmobiliaria · Madrid", m1: { v: "2.3×", l: "Leads / mes" }, m2: { v: "48h", l: "Online desde" } },
+  { name: "Henko Prime Studio",   sector: "Estética · Murcia",     m1: { v: "+127", l: "Reservas / mes" }, m2: { v: "92%", l: "Ocupación" } },
+  { name: "Top Global Net",       sector: "Servicios B2B · ES",   m1: { v: "×5", l: "Demos / sem." }, m2: { v: "11s", l: "Tiempo medio" } },
+];
+
+const PLANS = [
+  {
+    name: "Estándar",
+    tag: "Para empezar",
+    price: "19", cents: ",99",
+    period: "/ mes · sin permanencia",
+    featured: false,
+    cta: "Empezar",
+    features: [
+      { label: "Diseño en 48h",            ok: true },
+      { label: "Rebranding visual",        ok: "básico" },
+      { label: "Hosting + dominio",        ok: true },
+      { label: "Cambios ilimitados",       ok: false },
+      { label: "Soporte (WhatsApp)",       ok: "solo email" },
+      { label: "Analítica + leads",        ok: false },
+      { label: "Garantía 14 días",         ok: true },
+    ],
+  },
+  {
+    name: "Premium",
+    tag: "Recomendado",
+    badge: "Más elegido",
+    price: "49", cents: ",99",
+    period: "/ mes · sin permanencia",
+    featured: true,
+    cta: "Empezar Premium",
+    features: [
+      { label: "Diseño en 48h",            ok: true },
+      { label: "Rebranding visual",        ok: true },
+      { label: "Hosting + dominio",        ok: true },
+      { label: "Cambios ilimitados",       ok: true },
+      { label: "Soporte (WhatsApp)",       ok: true },
+      { label: "Analítica + leads",        ok: true },
+      { label: "Garantía 14 días",         ok: true },
+    ],
+  },
+  {
+    name: "Premium Web Previa",
+    tag: "Migración desde otra web",
+    price: "29", cents: ",99",
+    period: "/ mes · descuento permanente",
+    featured: false,
+    cta: "Migrar mi web",
+    features: [
+      { label: "Diseño en 48h",            ok: true },
+      { label: "Rebranding visual",        ok: true },
+      { label: "Hosting + dominio",        ok: true },
+      { label: "Cambios ilimitados",       ok: true },
+      { label: "Soporte (WhatsApp)",       ok: true },
+      { label: "Analítica + leads",        ok: "opcional" },
+      { label: "Garantía 14 días",         ok: true },
+    ],
+  },
+];
+
+function PlanCard({ plan }) {
+  return (
+    <div className={`pcard${plan.featured ? " pcard--featured" : ""}`}>
+      {plan.badge && <span className="pcard__badge">{plan.badge}</span>}
+      <div className="pcard__head">
+        <p className="pcard__name">{plan.name}</p>
+        <p className={`pcard__tag${plan.featured ? " pcard__tag--coral" : ""}`}>{plan.tag}</p>
+        <div className="pcard__price tnum">
+          {plan.price}<span className="pcard__cents">{plan.cents}</span>€
+        </div>
+        <p className="pcard__period">{plan.period}</p>
+      </div>
+      <ul className="pcard__features" role="list">
+        {plan.features.map((f, i) => (
+          <li key={i} className={`pcard__feat${f.ok === false ? " pcard__feat--off" : ""}`}>
+            <span className="pcard__icon">{f.ok === true ? "●" : f.ok === false ? "—" : f.ok}</span>
+            <span>{f.label}</span>
+          </li>
+        ))}
+      </ul>
+      <a href="#cta" className={`btn${plan.featured ? " btn--coral" : " btn--ghost"}`}
+        style={plan.featured ? {} : { color: "var(--ink)", borderColor: "var(--ink)" }}>
+        {plan.cta}
+        {plan.featured && (
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="arrow">
+            <path d="M3 7h8M7 3l4 4-4 4" />
+          </svg>
+        )}
+      </a>
+    </div>
+  );
+}
+
+function Pricing() {
+  return (
+    <section id="pricing" className="section">
+      <div className="container">
+        <div className="pricing__head">
+          <span className="eyebrow">04 — Planes y precios</span>
+          <h2 className="display-l">Un precio fijo,<br/><em className="italic" style={{ color: "var(--coral)" }}>cero letra pequeña.</em></h2>
+        </div>
+        <div className="pcard__grid">
+          {PLANS.map((plan, i) => <PlanCard key={i} plan={plan} />)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const [open, setOpen] = useState(0);
+  return (
+    <section id="faq" className="section">
+      <div className="container">
+        <div className="faq__head">
+          <span className="eyebrow">05 — Preguntas que ya nos han hecho</span>
+          <h2 className="display-l">Sin letra pequeña,<br/><em className="italic" style={{ color: "var(--coral)" }}>sin asteriscos.</em></h2>
+        </div>
+        <div className="faq__list" role="list">
+          {FAQ_DATA.map((f, i) => (
+            <FAQItem key={i} q={f.q} a={f.a} open={open === i} onToggle={() => setOpen(open === i ? -1 : i)} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQItem({ q, a, open, onToggle }) {
+  const ref = useRef(null);
+  return (
+    <div className="faq__item" role="listitem">
+      <button className="faq__btn" aria-expanded={open} onClick={onToggle}>
+        <span className="faq__q">{q}</span>
+        <span className="faq__plus">+</span>
+      </button>
+      <div className="faq__panel" style={{ maxHeight: open ? (ref.current?.scrollHeight || 800) + 60 : 0 }}>
+        <div className="faq__panel-inner" ref={ref}>{a}</div>
+      </div>
+    </div>
+  );
+}
+
+const FAQ_DATA = [
+  { q: "¿Por qué 48 horas y no una semana, como todos?", a: <><p>Porque tenemos un sistema de producción interno —no una agencia de freelances— y porque el 95% de las landings que necesita un negocio local comparten la misma arquitectura. Lo que cambia es la marca, el tono y las fotos. Eso sí lo hacemos a medida.</p><p>La media real de las últimas 100 entregas es 41 horas. Lo decimos como 48 porque preferimos prometer de menos.</p></> },
+  { q: "Pago una cuota mensual. ¿Qué pasa si dejo de pagar?", a: <p>La landing se pausa. No se borra. Si vuelves en 30 días, todo sigue donde lo dejaste. Si pasan más de 90 días sin actividad, te enviamos un archivo con todo el contenido para que puedas migrarlo donde quieras. Sin rehén digital.</p> },
+  { q: "¿Y si quiero cambiar algo cada semana?", a: <p>En los planes Premium puedes pedir cambios ilimitados por WhatsApp. La media de tiempo de respuesta del último trimestre es 3h 12min en horario laboral (lun-vie 9-19h CET).</p> },
+  { q: "Trabajáis con negocios fuera de España, ¿verdad?", a: <p>Sí. El 18% de la cartera está en LATAM (México, Colombia, Argentina principalmente). Facturamos en euros con conversión al cambio, y aceptamos transferencia internacional o pasarela local según país.</p> },
+  { q: "Tengo una web hecha por una agencia que pago demasiado. ¿Podéis migrarla?", a: <p>Para eso existe el plan Premium Web Previa a 29,99€/mes con descuento permanente: en una sola sesión auditamos lo que tienes, decidimos qué se rescata, y reconstruimos la landing en 48h. No tocas tu hosting actual hasta que la nueva esté aprobada.</p> },
+  { q: "¿Veo el resultado antes de pagar?", a: <p>Tienes 14 días desde la entrega para cancelar sin coste. Si en ese plazo no te encaja, no facturamos. Pasados los 14 días, el primer mes ya está facturado y puedes cancelar para los siguientes en cualquier momento.</p> },
+  { q: "¿Quién está detrás de ecomnet?", a: <p>Un equipo de seis personas distribuido entre Murcia, Madrid y CDMX. Diseño, copy, desarrollo y soporte bajo el mismo paraguas. No subcontratamos a freelances anónimos: cada landing la firma una persona con nombre y apellido que está disponible para ti.</p> },
+];
+
+function CTA() {
+  return (
+    <section id="cta" className="section section--night">
+      <div className="container">
+        <div className="cta">
+          <span className="eyebrow eyebrow--coral" style={{ display: "block", marginBottom: 28 }}>— Briefing de 15 minutos · gratuito</span>
+          <h2>Tu próxima landing<br/>empieza <em>esta semana.</em></h2>
+          <div className="actions">
+            <a href="#" className="btn btn--coral">
+              Reservar briefing
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="arrow"><path d="M3 7h8M7 3l4 4-4 4" /></svg>
+            </a>
+            <a href="#pricing" className="btn btn--ghost" style={{ color: "var(--on-night)", borderColor: "var(--on-night)" }}>Comparar planes</a>
+          </div>
+          <p className="cta__fineprint">
+            <span className="coral">●</span> Sin tarjeta · Sin permanencia · 14 días para cancelar sin coste
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  const [agoLabel] = useState(() => {
+    const h = 2 + Math.floor(Math.random() * 22);
+    return h < 24 ? `hace ${h}h` : `hace ${Math.floor(h/24)}d`;
+  });
+  return (
+    <footer className="footer">
+      <div className="container">
+        <div className="footer__top">
+          <div>
+            <div className="footer__logo">ecom<span className="slash">/</span>net</div>
+            <p className="footer__tag">Una landing en 48 horas. Una cuota fija al mes. Cero agencias intermedias.</p>
+          </div>
+          <div className="footer__col"><h4>Producto</h4><ul><li><a href="#pricing">Planes</a></li><li><a href="#casos">Casos</a></li><li><a href="#faq">Preguntas</a></li><li><a href="#">Garantía</a></li></ul></div>
+          <div className="footer__col"><h4>Empresa</h4><ul><li><a href="#">Equipo</a></li><li><a href="#">Diario</a></li><li><a href="#">Contacto</a></li></ul></div>
+          <div className="footer__col"><h4>Operativa</h4><ul><li><a href="#">Murcia · Madrid · CDMX</a></li><li><a href="#">hola@ecomnet.es</a></li><li><a href="#">+34 600 000 000</a></li></ul></div>
+        </div>
+        <div className="footer__bottom">
+          <span>© 2026 ecomnet S.L. · CIF B0000000</span>
+          <span><span style={{ color: "var(--coral)" }}>●</span> Operativo · última entrega {agoLabel}</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+Object.assign(window, {
+  Wordmark, Nav, Hero, Stats, Manifesto, CasesSection, Pricing, FAQ, CTA, Footer,
+});
+  </script>
+
+  <!-- app.jsx — inlined para compatibilidad file:// -->
+  <script type="text/babel">
+
+// app.jsx — root orchestrator + Tweaks panel
+const ACCENTS = [
+  { coral: "oklch(62% 0.18 30)",  ink: "oklch(48% 0.16 30)",  soft: "oklch(88% 0.05 30)"  },
+  { coral: "oklch(55% 0.16 45)",  ink: "oklch(42% 0.14 45)",  soft: "oklch(86% 0.05 45)"  },
+  { coral: "oklch(70% 0.21 145)", ink: "oklch(55% 0.18 145)", soft: "oklch(90% 0.06 145)" },
+  { coral: "oklch(22% 0.01 40)",  ink: "oklch(15% 0.01 40)",  soft: "oklch(85% 0.005 70)" },
+];
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "oklch(62% 0.18 30)",
+  "mode": "dual",
+  "density": "regular"
+}/*EDITMODE-END*/;
+
+const DENSITY_MAP = { compact: 0.7, regular: 1.0, comfy: 1.3 };
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const a = ACCENTS.find((x) => x.coral === t.accent) || ACCENTS[0];
+    root.style.setProperty("--coral", a.coral);
+    root.style.setProperty("--coral-ink", a.ink);
+    root.style.setProperty("--coral-soft", a.soft);
+    root.style.setProperty("--density", DENSITY_MAP[t.density] || 1);
+    root.setAttribute("data-mode", t.mode || "dual");
+  }, [t.accent, t.mode, t.density]);
+
+  return (
+    <>
+      <Nav />
+      <main>
+        <Hero />
+        <Stats />
+        <Manifesto />
+        <CasesSection />
+        <Pricing />
+        <FAQ />
+        <CTA />
+      </main>
+      <Footer />
+
+      <TweaksPanel>
+        <TweakSection label="Acento" />
+        <TweakColor
+          label="Color"
+          value={t.accent}
+          options={ACCENTS.map((a) => a.coral)}
+          onChange={(v) => setTweak("accent", v)}
+        />
+        <TweakSection label="Modo de página" />
+        <TweakRadio
+          label="Esquema"
+          value={t.mode}
+          options={["dual", "light", "dark"]}
+          onChange={(v) => setTweak("mode", v)}
+        />
+        <TweakSection label="Densidad" />
+        <TweakRadio
+          label="Espaciado"
+          value={t.density}
+          options={["compact", "regular", "comfy"]}
+          onChange={(v) => setTweak("density", v)}
+        />
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+
+</body>
+</html>
