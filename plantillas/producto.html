@@ -281,6 +281,12 @@
   .ribbon a:hover { opacity: 1; }
   @media (max-width: 720px) { .ribbon { display: none; } }
 
+  /* ── JS-driven states ── */
+  .nav[data-scrolled] { box-shadow: 0 2px 24px -4px oklch(22% 0.02 240 / 0.10); }
+  .nav__links a[data-active] { color: var(--ink); font-weight: 600; }
+  .cat[data-selected] { box-shadow: 0 0 0 2px var(--accent); transform: translateY(-4px); }
+  a.btn[data-state="loading"] { opacity: 0.6; pointer-events: none; }
+
   /* Imágenes reales — reemplazan placeholders */
   .hero__img {
     position: relative; z-index: 1;
@@ -592,5 +598,82 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  'use strict';
+
+  /* ── STATE ─────────────────────────────────────────── */
+  const state = { scrolled: false, activeSection: null };
+
+  /* ── SMOOTH SCROLL — event delegation ──────────────── */
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const hash = a.getAttribute('href');
+    if (hash === '#') return;          // placeholder de compra — no interceptar
+    const target = document.querySelector(hash);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* ── NAV SCROLL SHADOW ──────────────────────────────── */
+  const nav = document.querySelector('.nav');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY > 48;
+    if (scrolled === state.scrolled) return;
+    state.scrolled = scrolled;
+    nav.toggleAttribute('data-scrolled', scrolled);
+  }, { passive: true });
+
+  /* ── SCROLL SPY — link activo por sección ───────────── */
+  const navLinks = [...document.querySelectorAll('.nav__links a[href^="#"]')];
+  const sections = ['producto', 'categorias', 'soporte', 'cta']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  if (sections.length && navLinks.length) {
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(({ isIntersecting, target }) => {
+        if (!isIntersecting) return;
+        const id = target.id;
+        if (state.activeSection === id) return;
+        state.activeSection = id;
+        navLinks.forEach(a =>
+          a.toggleAttribute('data-active', a.getAttribute('href') === `#${id}`)
+        );
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(s => spy.observe(s));
+  }
+
+  /* ── CAT CARDS — estado selected al hacer clic ──────── */
+  const cats = [...document.querySelectorAll('.cat')];
+  cats.forEach(card => {
+    card.addEventListener('click', () => {
+      cats.forEach(c => c.removeAttribute('data-selected'));
+      card.setAttribute('data-selected', '');
+    });
+  });
+
+  /* ── CTA — feedback loading en botón de compra ──────── */
+  const buyBtn = document.querySelector('.cta .btn--solid');
+  if (buyBtn && buyBtn.getAttribute('href') === '#') {
+    buyBtn.addEventListener('click', e => {
+      e.preventDefault();
+      if (buyBtn.dataset.state) return;
+      const orig = buyBtn.textContent;
+      buyBtn.dataset.state = 'loading';
+      buyBtn.textContent = 'Procesando…';
+      setTimeout(() => {
+        delete buyBtn.dataset.state;
+        buyBtn.textContent = orig;
+      }, 1400);
+    });
+  }
+
+})();
+</script>
 </body>
 </html>
